@@ -14,7 +14,7 @@
 
                     inputs = with pkgs; [ dotnet-sdk_7 ];
                 in rec {
-                    packages.nixbot = buildDotnetModule {
+                    packages.nixbot = pkgs.buildDotnetModule {
                         pname = "nixbot";
                         version = "1.0.0";
 
