@@ -18,7 +18,7 @@
                         pname = "nixbot";
                         version = "1.0.0";
 
-                        nugetDeps = "";
+                        nugetDeps = ./deps.nix;
 
                         src = ./.;
 
