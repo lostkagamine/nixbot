@@ -10,6 +10,8 @@
         let
             packages = flake-utils.lib.eachDefaultSystem (system:
                 let
+                    pkgs = nixpkgs.legacyPackages."${system}";
+
                     inputs = with pkgs; [ dotnet-sdk_7 ];
                 in rec {
                     packages.nixbot = buildDotnetModule {
