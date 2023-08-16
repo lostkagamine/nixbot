@@ -36,11 +36,7 @@
 
                         # Init efcore here because efcore builds the project
 
-                        export NIXBOT_DB_PATH="/var/lib/nixbot/nixbot.db"
-
-                        if [ ! -d /var/lib/nixbot ]; then
-                            mkdir /var/lib/nixbot
-                        fi
+                        export NIXBOT_DB_PATH="${self}/bin/nixbot.db"
 
                         ${pkgs.dotnet-sdk_7}/bin/dotnet tool install dotnet-ef
                         ${pkgs.dotnet-sdk_7}/bin/dotnet ef database update
@@ -80,6 +76,18 @@
                             description = "Silly Discord bot";
                             wantedBy = ["multi-user.target"];
                             after = ["network.target"];
+
+                            preStart = ''
+
+                            if [ ! -d /var/lib/nixbot ]; then
+                                mkdir /var/lib/nixbot
+                            fi
+
+                            if [ ! -e /var/lib/nixbot/nixbot.db ]; then
+                                cp ${pkg}/bin/nixbot.db /var/lib/nixbot
+                            fi
+
+                            '';
 
                             script = ''
 
