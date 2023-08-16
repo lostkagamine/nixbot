@@ -3,5 +3,5 @@ let
     nixbot = import ./flake.nix;
 in
 pkgs.mkShell {
-  packages = [ nixbot.packages.${pkgs.system}.nixbot ];
+  packages = [ nixbot.nixosModule.packages.${pkgs.system}.nixbot ];
 }
