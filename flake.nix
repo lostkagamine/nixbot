@@ -31,6 +31,21 @@
                         };
 
                         dotnet-sdk = pkgs.dotnet-sdk_7;
+
+                        postBuild = ''
+
+                        # Init efcore here because efcore builds the project
+
+                        export NIXBOT_DB_PATH="/var/lib/nixbot/nixbot.db"
+
+                        if [ ! -d /var/lib/nixbot ]; then
+                            mkdir /var/lib/nixbot
+                        fi
+
+                        ${pkgs.dotnet-sdk_7}/bin/dotnet tool install dotnet-ef
+                        ${pkgs.dotnet-sdk_7}/bin/dotnet ef database update
+
+                        '';
                     };
 
                     apps.nixbot = flake-utils.lib.mkApp {
@@ -65,19 +80,6 @@
                             description = "Silly Discord bot";
                             wantedBy = ["multi-user.target"];
                             after = ["network.target"];
-
-                            preStart = ''
-
-                            export NIXBOT_DB_PATH="/var/lib/nixbot/nixbot.db"
-
-                            if [ ! -d /var/lib/nixbot ]; then
-                                mkdir /var/lib/nixbot
-                            fi
-
-                            ${pkgs.dotnet-sdk_7}/bin/dotnet tool install dotnet-ef
-                            ${pkgs.dotnet-sdk_7}/bin/dotnet ef database update
-
-                            '';
 
                             script = ''
 
