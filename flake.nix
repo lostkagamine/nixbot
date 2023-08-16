@@ -22,7 +22,7 @@
 
                         projectFile = "NixBot/NixBot.csproj";
 
-                        meta = with lib; {
+                        meta = with pkgs.lib; {
                             homepage = "https://github.com/lostkagamine/nixbot";
                             description = "silly bot that tracks when you last said nix";
                             license = licenses.mit;
