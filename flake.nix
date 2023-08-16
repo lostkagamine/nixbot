@@ -38,7 +38,11 @@
 
                         export NIXBOT_DB_PATH="${self}/bin/nixbot.db"
 
+                        # Create a tool manifest
+                        ${pkgs.dotnet-sdk_7}/bin/dotnet new tool-manifest
+                        # Install dotnet-ef to grant access to the `dotnet ef` command
                         ${pkgs.dotnet-sdk_7}/bin/dotnet tool install dotnet-ef
+                        # Initialise the database
                         ${pkgs.dotnet-sdk_7}/bin/dotnet ef database update
 
                         '';
