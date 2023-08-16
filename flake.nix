@@ -18,6 +18,8 @@
                         pname = "nixbot";
                         version = "1.0.0";
 
+                        nugetDeps = "";
+
                         src = ./.;
 
                         projectFile = "NixBot/NixBot.csproj";
