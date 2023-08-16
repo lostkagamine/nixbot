@@ -44,19 +44,18 @@ public class Nixbot
         var token = Environment.GetEnvironmentVariable("NIXBOT_TOKEN")!;
         var prefix = Environment.GetEnvironmentVariable("NIXBOT_PREFIX") ?? "-";
 
-        var wasJustCreated = await DbContext.Database.EnsureCreatedAsync();
-        if (!wasJustCreated)
-        {
-            Console.WriteLine("db doesnt exist, migrating it");
-            await DbContext.Database.MigrateAsync();
-        }
-
         if (string.IsNullOrEmpty(token))
         {
             throw new Exception("set a token fucko");
         }
 
         DbContext = new NixbotContext();
+        var wasJustCreated = await DbContext.Database.EnsureCreatedAsync();
+        if (!wasJustCreated)
+        {
+            Console.WriteLine("db doesnt exist, migrating it");
+            await DbContext.Database.MigrateAsync();
+        }
 
         Discord = new DiscordClient(new DiscordConfiguration
         {
