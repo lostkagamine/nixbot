@@ -31,21 +31,6 @@
                         };
 
                         dotnet-sdk = pkgs.dotnet-sdk_7;
-
-                        postBuild = ''
-
-                        # Init efcore here because efcore builds the project
-
-                        export NIXBOT_DB_PATH="${self}/bin/nixbot.db"
-
-                        # Create a tool manifest
-                        ${pkgs.dotnet-sdk_7}/bin/dotnet new tool-manifest
-                        # Install dotnet-ef to grant access to the `dotnet ef` command
-                        ${pkgs.dotnet-sdk_7}/bin/dotnet tool install dotnet-ef
-                        # Initialise the database
-                        ${pkgs.dotnet-sdk_7}/bin/dotnet ef database update
-
-                        '';
                     };
 
                     apps.nixbot = flake-utils.lib.mkApp {
@@ -81,19 +66,11 @@
                             wantedBy = ["multi-user.target"];
                             after = ["network.target"];
 
-                            preStart = ''
+                            script = ''
 
                             if [ ! -d /var/lib/nixbot ]; then
                                 mkdir /var/lib/nixbot
                             fi
-
-                            if [ ! -e /var/lib/nixbot/nixbot.db ]; then
-                                cp ${pkg}/bin/nixbot.db /var/lib/nixbot
-                            fi
-
-                            '';
-
-                            script = ''
 
                             export NIXBOT_DB_PATH="/var/lib/nixbot/nixbot.db"
                             export NIXBOT_TOKEN="${cfg.token}"
