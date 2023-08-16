@@ -29,6 +29,8 @@
                             description = "silly bot that tracks when you last said nix";
                             license = licenses.mit;
                         };
+
+                        dotnet-sdk = pkgs.dotnet-sdk_7;
                     };
 
                     apps.nixbot = flake-utils.lib.mkApp {
