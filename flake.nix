@@ -31,6 +31,7 @@
                         };
 
                         dotnet-sdk = pkgs.dotnet-sdk_7;
+                        dotnet-runtime = pkgs.dotnet-runtime_7;
                     };
 
                     apps.nixbot = flake-utils.lib.mkApp {
