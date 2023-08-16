@@ -22,7 +22,7 @@ public class NixbotCommands : BaseCommandModule
             await ctx.Channel.SendMessageAsync($"You last said 'nix' <t:{dbmsg.LastSaid}:R>.");
         }
     }
-        
+    
     [Command("lastsaid")]
     // ReSharper disable once UnusedMember.Local
     public async Task LastSaid(CommandContext ctx, DiscordUser target)
