@@ -76,7 +76,7 @@
                             export NIXBOT_TOKEN="${cfg.token}"
                             export NIXBOT_PREFIX="${cfg.prefix}"
 
-                            ${pkg}/bin/nixbot
+                            ${pkg}/bin/NixBot
 
                             '';
                         };
