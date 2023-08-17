@@ -6,7 +6,7 @@ public class NixbotContext : DbContext
 {
     public DbSet<DbMessage> Messages { get; set; } = null!;
 
-    private string DbPath { get; }
+    public string DbPath { get; }
 
     public NixbotContext()
     {

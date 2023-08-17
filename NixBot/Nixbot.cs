@@ -50,8 +50,8 @@ public class Nixbot
         }
 
         DbContext = new NixbotContext();
-        var wasJustCreated = await DbContext.Database.EnsureCreatedAsync();
-        if (!wasJustCreated)
+        var dbExists = File.Exists(DbContext.DbPath);
+        if (!dbExists)
         {
             Console.WriteLine("db doesnt exist, migrating it");
             await DbContext.Database.MigrateAsync();
