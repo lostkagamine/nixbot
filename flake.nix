@@ -16,7 +16,7 @@
                 in rec {
                     packages.nixbot = pkgs.buildDotnetModule {
                         pname = "nixbot";
-                        version = "1.0.0";
+                        version = "1.0.1";
 
                         nugetDeps = ./deps.nix;
 

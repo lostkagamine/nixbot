@@ -16,8 +16,11 @@ public class Nixbot
     private static async Task OnMessage(DiscordClient sender, MessageCreateEventArgs args)
     {
         if (args.Author.IsBot) return;
-        
-        if (args.Message.Content.ToLower().Contains("nix"))
+
+        var content = args.Message.Content.ToLower();
+        content = content.Replace("\u200b", "");
+
+        if (content.Contains("nix"))
         {
             var t = await DbContext.Messages.FindAsync(args.Author.Id);
             var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
