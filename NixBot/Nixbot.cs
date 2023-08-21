@@ -30,12 +30,14 @@ public class Nixbot
                 DbContext.Messages.Add(new DbMessage
                 {
                     UserId = args.Author.Id,
-                    LastSaid = now
+                    LastSaid = now,
+                    Count = 1
                 });
             }
             else
             {
                 t.LastSaid = now;
+                t.Count++;
             }
 
             await DbContext.SaveChangesAsync();
@@ -53,12 +55,7 @@ public class Nixbot
         }
 
         DbContext = new NixbotContext();
-        var dbExists = File.Exists(DbContext.DbPath);
-        if (!dbExists)
-        {
-            Console.WriteLine("db doesnt exist, migrating it");
-            await DbContext.Database.MigrateAsync();
-        }
+        await DbContext.Database.MigrateAsync();
 
         Discord = new DiscordClient(new DiscordConfiguration
         {

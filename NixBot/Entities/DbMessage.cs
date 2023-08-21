@@ -7,4 +7,6 @@ public class DbMessage
     [Key]
     public ulong UserId { get; set; }
     public long LastSaid { get; set; }
+    
+    public int Count { get; set; }
 }

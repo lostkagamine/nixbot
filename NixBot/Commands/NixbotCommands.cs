@@ -19,7 +19,7 @@ public class NixbotCommands : BaseCommandModule
         }
         else
         {
-            await ctx.Channel.SendMessageAsync($"You last said 'nix' <t:{dbmsg.LastSaid}:R>.");
+            await ctx.Channel.SendMessageAsync($"You last said 'nix' <t:{dbmsg.LastSaid}:R>. You've said it {dbmsg.Count} time(s).");
         }
     }
     
@@ -42,7 +42,8 @@ public class NixbotCommands : BaseCommandModule
         }
         else
         {
-            await ctx.Channel.SendMessageAsync($"{target.GlobalName} last said 'nix' <t:{dbmsg.LastSaid}:R>.");
+            await ctx.Channel.SendMessageAsync($"{target.GlobalName} last said 'nix' <t:{dbmsg.LastSaid}:R>. "
+                + $"They've said it {dbmsg.Count} time(s).");
         }
     }
 }
