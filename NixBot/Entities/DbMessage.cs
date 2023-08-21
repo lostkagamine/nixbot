@@ -9,4 +9,5 @@ public class DbMessage
     public long LastSaid { get; set; }
     
     public int Count { get; set; }
+    public ulong LastTriggerMessage { get; set; }
 }

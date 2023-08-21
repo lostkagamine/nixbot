@@ -32,13 +32,17 @@ public class Nixbot
                 {
                     UserId = msg.Author.Id,
                     LastSaid = now,
-                    Count = 1
+                    Count = 1,
+                    LastTriggerMessage = msg.Id
                 });
             }
             else
             {
+                if (t.LastTriggerMessage == msg.Id)
+                    return;
                 t.LastSaid = now;
                 t.Count++;
+                t.LastTriggerMessage = msg.Id;
             }
 
             await DbContext.SaveChangesAsync();
