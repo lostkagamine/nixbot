@@ -13,23 +13,24 @@ public class Nixbot
     public static NixbotContext DbContext = null!;
     private static DiscordClient Discord = null!;
 
-    private static async Task OnMessage(DiscordClient sender, MessageCreateEventArgs args)
+    private static async Task NixCheck(DiscordMessage msg)
     {
-        if (args.Author.IsBot) return;
+        if (msg.Author.IsBot) return;
 
-        var content = args.Message.Content.ToLower();
-        content = content.Replace("\u200b", "");
+        var content = msg.Content.ToLower();
+        content = content.Replace("\u200b", "")
+            .Replace("\u00ad", "");
 
         if (content.Contains("nix"))
         {
-            var t = await DbContext.Messages.FindAsync(args.Author.Id);
+            var t = await DbContext.Messages.FindAsync(msg.Author.Id);
             var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             if (t is null)
             {
-                Console.WriteLine($"creating new DB entity for user {args.Author.Username} ({args.Author.Id})");
+                Console.WriteLine($"creating new DB entity for user {msg.Author.Username} ({msg.Author.Id})");
                 DbContext.Messages.Add(new DbMessage
                 {
-                    UserId = args.Author.Id,
+                    UserId = msg.Author.Id,
                     LastSaid = now,
                     Count = 1
                 });
@@ -42,6 +43,16 @@ public class Nixbot
 
             await DbContext.SaveChangesAsync();
         }
+    }
+    
+    private static async Task OnEdit(DiscordClient sender, MessageUpdateEventArgs args)
+    {
+        await NixCheck(args.Message);
+    }
+
+    private static async Task OnMessage(DiscordClient sender, MessageCreateEventArgs args)
+    {
+        await NixCheck(args.Message);
     }
     
     public static async Task Main(string[] args)
@@ -65,6 +76,7 @@ public class Nixbot
         });
 
         Discord.MessageCreated += OnMessage;
+        Discord.MessageUpdated += OnEdit;
 
         Console.WriteLine($"prefix is '{prefix}'");
         
