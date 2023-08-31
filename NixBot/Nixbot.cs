@@ -62,7 +62,7 @@ public class Nixbot
     private static async Task OnReactionAdded(DiscordClient sender, MessageReactionAddEventArgs args)
     {
         if (args.User.Id == 190544080164487168L &&
-            args.Emoji.Name == "x" &&
+            args.Emoji.Name == "\u274c" &&
             args.Message.Author.Id == sender.CurrentUser.Id)
         {
             await args.Message.DeleteAsync();
