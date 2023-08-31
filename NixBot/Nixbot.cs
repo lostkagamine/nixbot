@@ -58,6 +58,16 @@ public class Nixbot
     {
         await NixCheck(args.Message);
     }
+
+    private static async Task OnReactionAdded(DiscordClient sender, MessageReactionAddEventArgs args)
+    {
+        if (args.User.Id == 190544080164487168L &&
+            args.Emoji.Name == "x" &&
+            args.Message.Author.Id == sender.CurrentUser.Id)
+        {
+            await args.Message.DeleteAsync();
+        }
+    }
     
     public static async Task Main(string[] args)
     {
@@ -81,6 +91,7 @@ public class Nixbot
 
         Discord.MessageCreated += OnMessage;
         Discord.MessageUpdated += OnEdit;
+        Discord.MessageReactionAdded += OnReactionAdded;
 
         Console.WriteLine($"prefix is '{prefix}'");
         
