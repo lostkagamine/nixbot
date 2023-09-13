@@ -11,7 +11,7 @@ public class NixbotCommands : BaseCommandModule
     [Command("lastsaid")]
     public async Task LastSaid(CommandContext ctx)
     {
-        if (await Nixbot.DbContext.Blacklist.FindAsync(ctx.User.Id) != null)
+        if (await Blacklist.IsUserBlacklisted(ctx.User.Id))
         {
             await ctx.Channel.SendMessageAsync("You're blacklisted, the bot doesn't track you, therefore you have never said 'nix' in my book.");
             return;
@@ -40,7 +40,7 @@ public class NixbotCommands : BaseCommandModule
             return;
         }
 
-        if (await Blacklist.IsUserBlacklisted(ctx.User.Id))
+        if (await Blacklist.IsUserBlacklisted(target.Id))
         {
             await ctx.Channel.SendMessageAsync(
                 $"{target.Username} has bothered Sylvie enough to get blacklisted from the bot due to GDPR concerns, " +
