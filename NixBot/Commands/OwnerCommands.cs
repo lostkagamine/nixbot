@@ -6,7 +6,6 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.EntityFrameworkCore;
 
 namespace NixBot.Commands;
 

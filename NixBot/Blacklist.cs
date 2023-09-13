@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using NixBot.Entities;
 
 namespace NixBot;
