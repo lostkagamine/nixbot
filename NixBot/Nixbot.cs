@@ -16,10 +16,12 @@ public class Nixbot
     private static async Task NixCheck(DiscordMessage msg)
     {
         if (msg.Author.IsBot) return;
+        if (await Blacklist.IsUserBlacklisted(msg.Author.Id)) return;
 
         var content = msg.Content.ToLower();
         content = content.Replace("\u200b", "")
-            .Replace("\u00ad", "");
+            .Replace("\u00ad", "")
+            .Replace("\u200c", "");
 
         if (content.Contains("nix"))
         {
@@ -102,6 +104,7 @@ public class Nixbot
         
         cmds.RegisterCommands<NixbotCommands>();
         cmds.RegisterCommands<OwnerCommands>();
+        cmds.RegisterCommands<BlacklistCommands>();
 
         Discord.GuildDownloadCompleted += async (_, _) =>
         {

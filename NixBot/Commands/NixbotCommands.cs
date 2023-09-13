@@ -33,6 +33,14 @@ public class NixbotCommands : BaseCommandModule
                 $"{target.Username} is a bot, and thus is not tracked by the Nix Tracking System 9000™. Sorry.");
             return;
         }
+
+        if (await Blacklist.IsUserBlacklisted(ctx.User.Id))
+        {
+            await ctx.Channel.SendMessageAsync(
+                $"{target.Username} has bothered Sylvie enough to get blacklisted from the bot due to GDPR concerns, " +
+                "and thus is not tracked by the Nix Tracking System 9000™. Sorry.");
+            return;
+        }
         
         var dbmsg = await Nixbot.DbContext.Messages.FindAsync(target.Id);
         

@@ -6,6 +6,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.EntityFrameworkCore;
 
 namespace NixBot.Commands;
 
@@ -26,6 +27,23 @@ public class OwnerCommands : BaseCommandModule
         await ctx.Client.UpdateStatusAsync(new DiscordActivity(), UserStatus.Invisible);
         
         Environment.Exit(0);
+    }
+
+    [RequireOwner]
+    [Command("deletedata")]
+    [Description("Resets someone's stats.")]
+    public async Task DeleteDataCommand(CommandContext ctx, DiscordUser target)
+    {
+        var data = await Nixbot.DbContext.Messages.FindAsync(target.Id);
+        if (data == null)
+        {
+            await ctx.Message.CreateReactionAsync(DiscordEmoji.FromName(ctx.Client, ":question:"));
+            return;
+        }
+
+        Nixbot.DbContext.Messages.Remove(data);
+        await Nixbot.DbContext.SaveChangesAsync();
+        await ctx.Message.CreateReactionAsync(DiscordEmoji.FromName(ctx.Client, ":thumbsup:"));
     }
 
     [RequireOwner]
@@ -66,7 +84,8 @@ public class OwnerCommands : BaseCommandModule
                 await CSharpScript.EvaluateAsync(code,
                     ScriptOptions.Default.WithImports(
                         "System",
-                        "System.Math"
+                        "System.Math",
+                        "DSharpPlus"
                     ).AddReferences(references),
                     globals);
             sw.Stop();

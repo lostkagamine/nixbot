@@ -5,6 +5,7 @@ namespace NixBot.Entities;
 public class NixbotContext : DbContext
 {
     public DbSet<DbMessage> Messages { get; set; } = null!;
+    public DbSet<DbBlacklistEntry> Blacklist { get; set; } = null!;
 
     public string DbPath { get; }
 
