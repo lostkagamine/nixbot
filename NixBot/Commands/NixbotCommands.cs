@@ -11,6 +11,12 @@ public class NixbotCommands : BaseCommandModule
     [Command("lastsaid")]
     public async Task LastSaid(CommandContext ctx)
     {
+        if (await Nixbot.DbContext.Blacklist.FindAsync(ctx) != null)
+        {
+            await ctx.Channel.SendMessageAsync("You're blacklisted, the bot doesn't track you, therefore you have never said 'nix' in my book.");
+            return;
+        }
+        
         var dbmsg = await Nixbot.DbContext.Messages.FindAsync(ctx.User.Id);
         
         if (dbmsg is null)
